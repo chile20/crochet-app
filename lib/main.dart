@@ -1,3 +1,4 @@
+import 'package:crochet_app/project-list-page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -48,8 +49,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> _names = ['Project 1', 'Project 2', 'Project 3'];
-  Set<String> favoriteProject = Set<String>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    new Future.delayed(const Duration(seconds: 2), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProjectListPage()),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -59,239 +72,28 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: ListView.builder(
-        itemBuilder: (_, i) {
-          String name = _names[i];
-          bool isFavorite = favoriteProject.contains(name);
-          return Column(
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Container(
+          width: double.infinity,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ListTile(
-                leading: IconButton(
-              icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: isFavorite ? Colors.red : null,
-          ),
-                  onPressed: ()
-                  {
-                    setState(() {
-                      if(isFavorite)
-                        favoriteProject.remove(name);
-                      else
-                        favoriteProject.add(name);
-                    });
-                  },
-          ),
-                title: Text('$name'),
-                // <Add>
-                trailing: PopupMenuButton(
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        value: 'edit',
-                        child: Text('Edit'),
-                      ),
-                      PopupMenuItem(
-                        value: 'delete',
-                        child: Text('Delete'),
-                      )
-                    ];
-                  },
-                  onSelected: (String value) {
-                    print('You Click on po up menu item');
-                  },
-                ),
-                // </Add>
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Project1()),
-                  );
-                },
-              ),
-              Divider(),
-            ],
-          );
-        },
-        itemCount: _names.length,
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddNewProject()),
-          );
-        },
-        label: const Text('New Project'),
-        icon: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class AddNewProject extends StatelessWidget {
-  const AddNewProject({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add New Project'),
-      ),
-      body: Stack(
-        children: [
-          Form(
-              child: Scrollbar(
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Card(
-                          child: SingleChildScrollView(
-                              padding: const EdgeInsets.all(16),
-                              child: ConstrainedBox(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 400),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        TextFormField(
-                                          decoration: const InputDecoration(
-                                            border: UnderlineInputBorder(),
-                                            filled: true,
-                                            hintText: 'Enter project name',
-                                            labelText: 'Project Name',
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          decoration: const InputDecoration(
-                                            border: UnderlineInputBorder(),
-                                            filled: true,
-                                            hintText: 'Enter project link',
-                                            labelText: 'Project Link',
-                                          ),
-                                        ),
-                                        TextFormField(
-                                          maxLines: null,
-                                          decoration: const InputDecoration(
-                                            border: UnderlineInputBorder(),
-                                            filled: true,
-                                            hintText: 'Enter notes',
-                                            labelText: 'Notes',
-                                          ),
-                                        ),
-                                      ]))))))),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: const EdgeInsets.all(16),
-              height: 48,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Save',
-                    style: TextStyle(
-                      fontSize: 18,
-                    )),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Project1 extends StatelessWidget {
-  int counter = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Project 1'),
-      ),
-      body: Stack(
-        children: [
-          Card(
-              child: Scrollbar(
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Card(
-                          child: SingleChildScrollView(
-                              padding: const EdgeInsets.all(16),
-                              child: ConstrainedBox(
-                                  constraints:
-                                  const BoxConstraints(maxWidth: 400),
-                                  child: Column(
-                                      // mainAxisAlignment:
-                                      // MainAxisAlignment.center,
-                                      // crossAxisAlignment:
-                                      // CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Counter 1',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.remove,
-                                                color: Theme.of(context).accentColor,
-                                              ),
-                                              padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 18.0),
-                                              iconSize: 32.0,
-                                              color: Theme.of(context).primaryColor,
-                                              onPressed: () {
-                                                counter--;
-                                              },
-                                            ),
-                                            Text(
-                                              '$counter',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 18.0,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.add,
-                                                color: Theme.of(context).accentColor,
-                                              ),
-                                              padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 18.0),
-                                              iconSize: 32.0,
-                                              color: Theme.of(context).primaryColor,
-                                              onPressed: () {
-                                                counter++;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ]
-                                  )
-                              )
-                          )
-                      )
-                  )
+              const Image(
+                height: 150,
+                width: 150,
+                image: AssetImage('images/logo.png'),
               )
+            ],
           ),
-        ],
-      )
+        ),
+      ),
     );
   }
 }
+
+
+
+
