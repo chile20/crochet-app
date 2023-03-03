@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:crochet_app/part-detail-page.dart';
-import 'package:crochet_app/add-new-part.dart';
 
 
-class ProjectDetailPage extends StatefulWidget {
-  const ProjectDetailPage({Key? key}) : super(key: key);
+class PartDetailPage extends StatefulWidget {
+  const PartDetailPage({Key? key}) : super(key: key);
 
   @override
-  State<ProjectDetailPage> createState() => _ProjectDetailPageState();
+  State<PartDetailPage> createState() => _PartDetailPageState();
 }
 
-class _ProjectDetailPageState extends State<ProjectDetailPage> {
+class _PartDetailPageState extends State<PartDetailPage> {
   final List<String> _names = ['Part A', 'Part B', 'Part C'];
   Set<String> favoriteProject = Set<String>();
 
@@ -20,7 +18,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Project 1"),
+        title: Text("Part A"),
 
       ),
       body: ListView.builder(
@@ -51,28 +49,18 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   },
                 ),
                 // </Add>
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PartDetailPage()),
-                  );
-                },
+                // onTap: (){
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => ProjectDetailPage()),
+                //   );
+                // },
               ),
               Divider(),
             ],
           );
         },
         itemCount: _names.length,
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddNewPart()),
-          );
-        },
-        label: const Text('New Part'),
-        icon: const Icon(Icons.add),
       ),
     );
   }

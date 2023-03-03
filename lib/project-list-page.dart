@@ -28,6 +28,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
         // the App.build method, and use it to set our appbar title.
         title: Text("Project List"),
         automaticallyImplyLeading: false,
+
       ),
       body: ListView.builder(
         itemBuilder: (_, i) {
@@ -39,19 +40,21 @@ class _ProjectListPageState extends State<ProjectListPage> {
                 // leading: Icon(),
                 title: Text('$name'),
                 // <Add>
-                trailing: IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : null,
-                  ),
-                  onPressed: ()
-                  {
-                    setState(() {
-                      if(isFavorite)
-                        favoriteProject.remove(name);
-                      else
-                        favoriteProject.add(name);
-                    });
+                trailing: PopupMenuButton(
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        value: 'edit',
+                        child: Text('Edit Name'),
+                      ),
+                      PopupMenuItem(
+                        value: 'delete',
+                        child: Text('Delete'),
+                      )
+                    ];
+                  },
+                  onSelected: (String value) {
+                    print('You Click on po up menu item');
                   },
                 ),
                 // </Add>
