@@ -1,6 +1,9 @@
+import 'package:crochet_app/data/database.dart';
 import 'package:flutter/material.dart';
 import 'package:crochet_app/add-new-project.dart';
 import 'package:crochet_app/project-detail-page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:crochet_app/project_model.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 
@@ -12,8 +15,9 @@ class ProjectListPage extends StatefulWidget {
 }
 
 class _ProjectListPageState extends State<ProjectListPage> {
-  final List<String> _names = ['Project 1', 'Project 2', 'Project 3'];
-  Set<String> favoriteProject = Set<String>();
+  // reference to hive box
+  final _myBox = Hive.openBox('mybox');
+  ProjectDataBase db = ProjectDataBase();
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -31,14 +35,14 @@ class _ProjectListPageState extends State<ProjectListPage> {
 
       ),
       body: ListView.builder(
-        itemBuilder: (_, i) {
-          String name = _names[i];
-          bool isFavorite = favoriteProject.contains(name);
+        itemCount: db.projects.length,
+        itemBuilder: (context, index) {
+          // itemCount: projects.length;
           return Column(
             children: <Widget>[
               ListTile(
                 // leading: Icon(),
-                title: Text('$name'),
+                title: Text(db.projects[index].name),
                 // <Add>
                 trailing: PopupMenuButton(
                   itemBuilder: (context) {
@@ -69,7 +73,6 @@ class _ProjectListPageState extends State<ProjectListPage> {
             ],
           );
         },
-        itemCount: _names.length,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

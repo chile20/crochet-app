@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProjectModel {
-  final String name;
+  String name;
+  // List<PartModel> parts =[];
+  ProjectModel({required this.name});
+}
 
-  ProjectModel({required this.name})l
+class PartModel {
+  String name;
+  String pattern;
+
+  PartModel({required this.name, required this.pattern});
 }
