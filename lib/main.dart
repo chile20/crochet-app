@@ -1,13 +1,23 @@
 import 'package:crochet_app/project-list-page.dart';
+import 'package:crochet_app/project_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:crochet_app/data/database.dart';
+
+Box? box;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // init the hive
+  Hive.registerAdapter(ProjectModelAdapter());
   await Hive.initFlutter();
+  // final appDocumentDir = await getApplicationDocumentsDirectory();
+  // Hive.init(appDocumentDir.path);
+  // // open a box
+  box = await Hive.openBox<ProjectModel>("projectBox");
 
-  // open a box
-  var box = await Hive.openBox('mybox');
   runApp(const MyApp());
 }
 
