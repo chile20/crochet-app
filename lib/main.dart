@@ -16,7 +16,7 @@ void main() async {
   // final appDocumentDir = await getApplicationDocumentsDirectory();
   // Hive.init(appDocumentDir.path);
   // // open a box
-  box = await Hive.openBox<ProjectModel>("projectBox");
+  box = await Hive.openBox<ProjectModel>("project");
 
   runApp(const MyApp());
 }

@@ -19,17 +19,32 @@ class ProjectModelAdapter extends TypeAdapter<ProjectModel> {
     return ProjectModel(
       id: fields[0] as int,
       name: fields[1] as String,
+      pattern: (fields[2] as List).cast<String>(),
+      currentRow: fields[3] as int,
+      totalRow: fields[4] as int,
+      currentStitch: fields[5] as int,
+      totalStitch: (fields[6] as List).cast<int>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ProjectModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.pattern)
+      ..writeByte(3)
+      ..write(obj.currentRow)
+      ..writeByte(4)
+      ..write(obj.totalRow)
+      ..writeByte(5)
+      ..write(obj.currentStitch)
+      ..writeByte(6)
+      ..write(obj.totalStitch);
   }
 
   @override

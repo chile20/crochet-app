@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:crochet_app/data/database.dart';
 import 'package:crochet_app/project_model.dart';
 import 'package:crochet_app/main.dart';
+import 'dart:convert';
 
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
@@ -18,6 +19,13 @@ class ProjectListPage extends StatefulWidget {
 
 class _ProjectListPageState extends State<ProjectListPage> {
   TextEditingController _projectName = TextEditingController();
+  TextEditingController _projectPattern = TextEditingController();
+  List<String> patternList = [];
+
+  void patternToArray(String text) {
+    LineSplitter ls = new LineSplitter();
+    patternList = ls.convert(text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +35,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
         automaticallyImplyLeading: false,
       ),
       body: ValueListenableBuilder(
-        valueListenable: Hive.box<ProjectModel>('projectBox').listenable(),
+        valueListenable: Hive.box<ProjectModel>('project').listenable(),
         builder: (context, Box<ProjectModel> box, _) {
           if (box.values.isEmpty) {
             return const Center(child: Text("No Projects"));
@@ -53,6 +61,20 @@ class _ProjectListPageState extends State<ProjectListPage> {
                       ];
                     },
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProjectDetailPage(
+                            projectName: result!.name,
+                            pattern: result!.pattern,
+                            currentRow: result!.currentRow,
+                            totalRow: result!.totalRow,
+                            totalStitch: result!.totalStitch,
+                            currentStitch: result!.currentStitch,
+                          )),
+                    );
+                  },
                   // </Add>
                 ));
               },
@@ -60,82 +82,63 @@ class _ProjectListPageState extends State<ProjectListPage> {
                 return const SizedBox(height: 12);
               },
             );
-            // return Column(
-            //   children: <Widget>[
-            //     ListTile(
-            //       // leading: Icon(),
-            //       title: Text("Title"),
-            //       // <Add>
-            //       trailing: PopupMenuButton(
-            //         itemBuilder: (context) {
-            //           return [
-            //             PopupMenuItem(
-            //               value: 'edit',
-            //               child: Text('Edit Name'),
-            //             ),
-            //             PopupMenuItem(
-            //               value: 'delete',
-            //               child: Text('Delete'),
-            //             )
-            //           ];
-            //         },
-            //         onSelected: (String value) {
-            //           print('You Click on po up menu item');
-            //         },
-            //       ),
-            //       // </Add>
-            //       onTap: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => ProjectDetailPage()),
-            //         );
-            //       },
-            //     ),
-            //     Divider(),
-            //   ],
-            // );
           }
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => addNewProject(context),
+        // onPressed: () => addNewProject(context),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddNewProject()),
+          );
+        },
         label: const Text('New Project'),
         icon: const Icon(Icons.add),
       ),
     );
   }
 
-  addNewProject(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("New Project"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: _projectName,
-                  decoration: const InputDecoration(hintText: 'Name'),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
-                    onPressed: () async {
-                      await box!.put(
-                          DateTime.now().toString(),
-                          ProjectModel(
-                            name: _projectName.text,
-                            id: DateTime.now().millisecondsSinceEpoch,
-                          ));
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Add")),
-              ],
-            ),
-          );
-        });
-  }
+  // addNewProject(BuildContext context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           title: const Text("New Project"),
+  //           content: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               TextFormField(
+  //                 controller: _projectName,
+  //                 decoration: const InputDecoration(hintText: 'Name'),
+  //               ),
+  //               const SizedBox(
+  //                 height: 15,
+  //               ),
+  //               TextFormField(
+  //                 controller: _projectPattern,
+  //                 decoration: const InputDecoration(hintText: 'Pattern'),
+  //               ),
+  //               const SizedBox(
+  //                 height: 15,
+  //               ),
+  //               ElevatedButton(
+  //                   onPressed: () async {
+  //                     patternToArray(_projectPattern.text);
+  //                     patternList.forEach((element) => print(element));
+  //                     await box!.put(
+  //                         DateTime.now().toString(),
+  //                         ProjectModel(
+  //                           name: _projectName.text,
+  //                           pattern: _projectPattern.text,
+  //                           id: DateTime.now().millisecondsSinceEpoch,
+  //                         ));
+  //                     Navigator.pop(context);
+  //                   },
+  //                   child: const Text("Add")),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 }

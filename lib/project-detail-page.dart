@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:crochet_app/part-detail-page.dart';
 import 'package:crochet_app/add-new-part.dart';
-
+import 'package:crochet_app/main.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ProjectDetailPage extends StatefulWidget {
-  const ProjectDetailPage({Key? key}) : super(key: key);
+  final String projectName;
+  final List<String> pattern;
+  final List<int> totalStitch;
+  final int currentStitch;
+  final int currentRow;
+  final int totalRow;
+
+  const ProjectDetailPage({
+    required this.projectName,
+    required this.pattern,
+    required this.totalStitch,
+    required this.currentStitch,
+    required this.currentRow,
+    required this.totalRow,
+  });
 
   @override
-  State<ProjectDetailPage> createState() => _ProjectDetailPageState();
+  _ProjectDetailPageState createState() => _ProjectDetailPageState();
 }
 
 class _ProjectDetailPageState extends State<ProjectDetailPage> {
@@ -17,7 +32,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("Part A"),
+            title: Text(widget.projectName),
             actions: <Widget>[
               Padding(
                   padding: EdgeInsets.only(right: 20.0),

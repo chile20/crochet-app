@@ -9,6 +9,25 @@ class ProjectModel {
   int id;
   @HiveField(1)
   String name;
+  @HiveField(2)
+  List<String> pattern;
+  @HiveField(3)
+  int currentRow;
+  @HiveField(4)
+  int totalRow;
+  @HiveField(5)
+  int currentStitch;
+  @HiveField(6)
+  List<int> totalStitch;
+
   // List<PartModel> parts =[];
-  ProjectModel({required this.id, required this.name});
+  ProjectModel({
+    required this.id,
+    required this.name,
+    required this.pattern,
+    required this.currentRow,
+    required this.totalRow,
+    required this.currentStitch,
+    required this.totalStitch,
+  });
 }
