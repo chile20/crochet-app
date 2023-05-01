@@ -14,6 +14,7 @@ class AddNewProject extends StatefulWidget {
 class _AddNewProjectState extends State<AddNewProject> {
   TextEditingController _projectName = TextEditingController();
   TextEditingController _projectPattern = TextEditingController();
+  List<String> patternArray = [];
 
   List<String> patternToArray(String text) {
     LineSplitter ls = new LineSplitter();
@@ -21,7 +22,17 @@ class _AddNewProjectState extends State<AddNewProject> {
   }
 
   List<int> totalStitchToArray(List<String> pattern) {
-    return [0, 1, 2];
+    List<int> result = [];
+    RegExp regex = RegExp(r'\((\d+)\)');
+    for (String str in pattern) {
+      Match? match = regex.firstMatch(str);
+      if (match != null) {
+        String numStr = match.group(1)!;
+        int num = int.parse(numStr);
+        result.add(num);
+      }
+    }
+    return result;
   }
 
   @override
@@ -68,22 +79,6 @@ class _AddNewProjectState extends State<AddNewProject> {
                                               labelText: 'Notes',
                                             ),
                                           ),
-                                          // Row(
-                                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                                          //   children: [
-                                          //     Text('Enable feature',
-                                          //         style: Theme.of(context).textTheme.bodyLarge),
-                                          //     Switch(
-                                          //       value: enableFeature,
-                                          //       onChanged: (enabled) {
-                                          //         setState(() {
-                                          //           enableFeature = enabled;
-                                          //         });
-                                          //       },
-                                          //     ),
-                                          //   ],
-                                          // ),
                                         ].expand((widget) => [
                                               widget,
                                               const SizedBox(
@@ -99,16 +94,17 @@ class _AddNewProjectState extends State<AddNewProject> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
+                  patternArray = patternToArray(_projectPattern.text);
                   await box!.put(
                       DateTime.now().toString(),
                       ProjectModel(
                         id: DateTime.now().millisecondsSinceEpoch,
                         name: _projectName.text,
-                        pattern: patternToArray(_projectPattern.text),
+                        pattern: patternArray,
                         currentRow: 0,
-                        totalRow: 0,
+                        totalRow: patternArray.length,
                         currentStitch: 0,
-                        totalStitch: [10, 20, 30, 40],
+                        totalStitch: totalStitchToArray(patternArray),
                       ));
                   Navigator.pop(context);
                 },

@@ -7,9 +7,6 @@ import 'package:crochet_app/project_model.dart';
 import 'package:crochet_app/main.dart';
 import 'dart:convert';
 
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-
 class ProjectListPage extends StatefulWidget {
   const ProjectListPage({Key? key}) : super(key: key);
 
@@ -65,14 +62,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ProjectDetailPage(
-                            projectName: result!.name,
-                            pattern: result!.pattern,
-                            currentRow: result!.currentRow,
-                            totalRow: result!.totalRow,
-                            totalStitch: result!.totalStitch,
-                            currentStitch: result!.currentStitch,
-                          )),
+                          builder: (context) => ProjectDetailPage(result)),
                     );
                   },
                   // </Add>
@@ -98,47 +88,4 @@ class _ProjectListPageState extends State<ProjectListPage> {
       ),
     );
   }
-
-  // addNewProject(BuildContext context) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: const Text("New Project"),
-  //           content: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               TextFormField(
-  //                 controller: _projectName,
-  //                 decoration: const InputDecoration(hintText: 'Name'),
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               TextFormField(
-  //                 controller: _projectPattern,
-  //                 decoration: const InputDecoration(hintText: 'Pattern'),
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               ElevatedButton(
-  //                   onPressed: () async {
-  //                     patternToArray(_projectPattern.text);
-  //                     patternList.forEach((element) => print(element));
-  //                     await box!.put(
-  //                         DateTime.now().toString(),
-  //                         ProjectModel(
-  //                           name: _projectName.text,
-  //                           pattern: _projectPattern.text,
-  //                           id: DateTime.now().millisecondsSinceEpoch,
-  //                         ));
-  //                     Navigator.pop(context);
-  //                   },
-  //                   child: const Text("Add")),
-  //             ],
-  //           ),
-  //         );
-  //       });
-  // }
 }
