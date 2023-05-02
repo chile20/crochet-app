@@ -24,6 +24,12 @@ class _ProjectListPageState extends State<ProjectListPage> {
     patternList = ls.convert(text);
   }
 
+  // void checkBox(String id) {
+  //   if (box!.containsKey(id))
+  //     print('yes');
+  //   else
+  //     print('ee');
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +38,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
         automaticallyImplyLeading: false,
       ),
       body: ValueListenableBuilder(
-        valueListenable: Hive.box<ProjectModel>('project').listenable(),
+        valueListenable: Hive.box<ProjectModel>('projects').listenable(),
         builder: (context, Box<ProjectModel> box, _) {
           if (box.values.isEmpty) {
             return const Center(child: Text("No Projects"));
@@ -43,6 +49,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
                 var result = box.getAt(index);
                 return Card(
                     child: ListTile(
+                      leading: Icon(Icons.sports_volleyball),
                   title: Text(result!.name),
                   // <Add>
                   trailing: PopupMenuButton(
@@ -62,7 +69,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ProjectDetailPage(result)),
+                          builder: (context) => ProjectDetailPage(result.id)),
                     );
                   },
                   // </Add>

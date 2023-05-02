@@ -24,13 +24,14 @@ class ProjectModelAdapter extends TypeAdapter<ProjectModel> {
       totalRow: fields[4] as int,
       currentStitch: fields[5] as int,
       totalStitch: (fields[6] as List).cast<int>(),
+      i: fields[7] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProjectModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class ProjectModelAdapter extends TypeAdapter<ProjectModel> {
       ..writeByte(5)
       ..write(obj.currentStitch)
       ..writeByte(6)
-      ..write(obj.totalStitch);
+      ..write(obj.totalStitch)
+      ..writeByte(7)
+      ..write(obj.i);
   }
 
   @override

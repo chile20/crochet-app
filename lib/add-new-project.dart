@@ -15,6 +15,7 @@ class _AddNewProjectState extends State<AddNewProject> {
   TextEditingController _projectName = TextEditingController();
   TextEditingController _projectPattern = TextEditingController();
   List<String> patternArray = [];
+  int key = 0;
 
   List<String> patternToArray(String text) {
     LineSplitter ls = new LineSplitter();
@@ -64,7 +65,7 @@ class _AddNewProjectState extends State<AddNewProject> {
                                             controller: _projectName,
                                             decoration: const InputDecoration(
                                               border: UnderlineInputBorder(),
-                                              filled: true,
+                                                filled: true,
                                               hintText: 'Enter project name',
                                               labelText: 'Project Name',
                                             ),
@@ -75,9 +76,11 @@ class _AddNewProjectState extends State<AddNewProject> {
                                             decoration: const InputDecoration(
                                               border: UnderlineInputBorder(),
                                               filled: true,
-                                              hintText: 'Enter notes',
-                                              labelText: 'Notes',
+                                              hintText: 'Enter pattern',
+                                              labelText: 'Patterns',
                                             ),
+                                          ),
+                                          Text("Note: Pattern input has to be standard crochet pattern with total of stitch for each row. \nExample: \nR1: 12 sc in Magic Ring. Sl st to first sc.(12 sts) \nR2: Chain 1, sc in same st. (12 sts)\n \""
                                           ),
                                         ].expand((widget) => [
                                               widget,
@@ -95,16 +98,20 @@ class _AddNewProjectState extends State<AddNewProject> {
               child: ElevatedButton(
                 onPressed: () async {
                   patternArray = patternToArray(_projectPattern.text);
+                  key = DateTime.now().millisecondsSinceEpoch;
+                  print(key);
+                  print(key.toString());
                   await box!.put(
-                      DateTime.now().toString(),
+                      key.toString(),
                       ProjectModel(
-                        id: DateTime.now().millisecondsSinceEpoch,
+                        id: key,
                         name: _projectName.text,
                         pattern: patternArray,
-                        currentRow: 0,
+                        currentRow: 1,
                         totalRow: patternArray.length,
                         currentStitch: 0,
                         totalStitch: totalStitchToArray(patternArray),
+                        i: 0,
                       ));
                   Navigator.pop(context);
                 },

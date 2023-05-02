@@ -19,7 +19,8 @@ class ProjectModel {
   int currentStitch;
   @HiveField(6)
   List<int> totalStitch;
-
+  @HiveField(7)
+  int i;
   // List<PartModel> parts =[];
   ProjectModel({
     required this.id,
@@ -29,5 +30,6 @@ class ProjectModel {
     required this.totalRow,
     required this.currentStitch,
     required this.totalStitch,
+    required this.i,
   });
 }
